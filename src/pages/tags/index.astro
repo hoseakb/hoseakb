@@ -44,7 +44,7 @@ const pad = (n: number) => String(n).padStart(2, "0");
 
 <style>
   .tag-grid {
-    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr));
     margin-top: var(--space-12);
     padding: 0;
     list-style: none;

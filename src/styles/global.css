@@ -16,6 +16,7 @@ html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
   scroll-padding-top: var(--space-24);
+  overflow-x: clip;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -39,6 +40,8 @@ body {
   font-family: var(--font-serif);
   font-size: var(--text-base);
   line-height: var(--leading-normal);
+  overflow-wrap: break-word;
+  overflow-x: clip;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;

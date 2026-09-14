@@ -80,9 +80,9 @@ const posts = (await getPublishedPosts()).slice(0, BLOG.postsOnHome);
 
   .hero__title {
     font-family: var(--font-mono);
-    font-size: clamp(2.25rem, 6.2vw, 4.25rem);
+    font-size: clamp(1.75rem, 6vw, 4.25rem);
     font-weight: 600;
-    line-height: 1.06;
+    line-height: 1.08;
     letter-spacing: 0.01em;
     text-transform: uppercase;
     max-width: 48rem;
@@ -173,6 +173,13 @@ const posts = (await getPublishedPosts()).slice(0, BLOG.postsOnHome);
     .hero__rail,
     .hero__notes-mid {
       display: none;
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .hero {
+      padding-block: var(--space-16);
+      gap: var(--space-4);
     }
   }
 

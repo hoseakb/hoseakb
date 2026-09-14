@@ -6,46 +6,29 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { AUTHOR, SITE, SOCIAL } from "../config";
 
 const colophon = [
-  { term: "Framework", value: "Astro 7, static output" },
-  { term: "Type", value: "Source Serif 4 · JetBrains Mono" },
-  { term: "Palette", value: "Sumi ink, washi paper, vermilion" },
-  { term: "Licence", value: "MIT" },
+  { term: "Author", value: "Hosea Khawbung" },
+  { term: "Origin", value: "Parbung, Manipur" },
+  { term: "Languages", value: "Hmar · English" },
+  { term: "Archive", value: "Poetry · Essays · Commentary" },
 ];
 ---
 
 <BaseLayout title="About" description={AUTHOR.bio}>
   <div class="wrap">
-    <PageHeader eyebrow="Colophon" title="About" lede={AUTHOR.bio} />
+    <PageHeader eyebrow="Author" title="About" lede={AUTHOR.bio} />
 
     <div class="about">
       <div class="prose about__body">
         <p>
-          {SITE.title} began as an attempt to answer a narrow question: what would
-          a blog look like if it were paced like a printed page rather than a feed?
+          Hosea Khawbung is a bi-lingual poet from Parbung, a sleepy hill village in the Southern district of Manipur.
         </p>
 
         <p>
-          The answer turned out to be mostly subtraction. One serif for reading,
-          one monospace for labels, one accent colour spent four times a page,
-          and a great deal of space left alone. The only thing added back was the
-          ink on the front page — a real fluid simulation, because a theme about
-          ink should have some.
-        </p>
-
-        <h2>Making it yours</h2>
-
-        <p>
-          Everything configurable lives in <code>src/config.ts</code>: the site
-          metadata, navigation, social links, how many posts appear per page, and
-          whether the ink runs at all. Posts are Markdown or MDX files under
-          <code>src/content/blog/</code>, validated against a schema so a missing
-          date fails the build rather than the page.
+          He writes primarily in Hmar, his mother tongue, and English, his language of interaction with the rest of the world.
         </p>
 
         <p>
-          Colours are declared once in <code>src/styles/tokens.css</code> using
-          <code>light-dark()</code>, so changing the palette means editing one
-          block rather than hunting through two themes.
+          This website is an archive of his poetry and other writings.
         </p>
 
         <h2>Elsewhere</h2>
@@ -64,10 +47,6 @@ const colophon = [
       </div>
 
       <aside class="about__aside">
-        <p class="tategaki about__rail" aria-hidden="true">
-          墨と余白 — INK AND SPACE
-        </p>
-
         <dl class="about__colophon">
           {
             colophon.map((row) => (

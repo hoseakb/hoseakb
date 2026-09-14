@@ -17,11 +17,6 @@ const isCurrent = (href: string) =>
 <header class="site-header" data-overlay={overlay ? "" : undefined}>
   <a class="brand" href="/">
     <span class="brand__mark">{SITE.title}</span>
-    {
-      SITE.titleMark && (
-        <span class="brand__sub">{SITE.titleMark} — {SITE.tagline}</span>
-      )
-    }
   </a>
 
   <div class="site-header__end">
@@ -67,6 +62,7 @@ const isCurrent = (href: string) =>
     align-items: baseline;
     gap: var(--space-3);
     text-decoration: none;
+    white-space: nowrap;
   }
 
   .brand:hover {
@@ -75,7 +71,7 @@ const isCurrent = (href: string) =>
 
   .brand__mark {
     font-family: var(--font-mono);
-    font-size: 1.1875rem;
+    font-size: clamp(var(--text-xs), 2.4vw, var(--text-base));
     font-weight: 600;
     letter-spacing: var(--tracking-label);
     text-transform: uppercase;
@@ -123,13 +119,18 @@ const isCurrent = (href: string) =>
     text-underline-offset: 0.4em;
   }
 
-  @media (max-width: 40rem) {
-    .brand__sub {
+  @media (max-width: 52rem) {
+    .brand {
       display: none;
     }
 
     .site-header {
       padding-block: var(--space-4);
+    }
+
+    .site-header__end {
+      width: 100%;
+      justify-content: space-between;
     }
   }
 </style>

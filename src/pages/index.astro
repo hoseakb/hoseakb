@@ -11,8 +11,8 @@ const posts = (await getPublishedPosts()).slice(0, BLOG.postsOnHome);
 <BaseLayout overlayHeader>
   <FluidInk variant="hero" enabled={INK.hero}>
     <div class="hero">
-      <p class="hero__eyebrow">An Astro 7 theme</p>
-      <h1 class="hero__title">{SITE.title}</h1>
+      <p class="hero__eyebrow">Essays · Commentary · Poetry</p>
+      <h1 class="hero__title">From the hills of Parbung</h1>
       <p class="hero__lede">{SITE.tagline}</p>
       <p class="hero__cta">
         <a href="/blog/">Read the blog ↓</a>
@@ -52,7 +52,7 @@ const posts = (await getPublishedPosts()).slice(0, BLOG.postsOnHome);
   {
     INK.divider && (
       <FluidInk variant="divider" strength={INK.strength * 0.7}>
-        <p class="divider__label label">墨 — Ink and paper</p>
+        <p class="divider__label label">From the hills of Parbung</p>
       </FluidInk>
     )
   }
@@ -80,11 +80,12 @@ const posts = (await getPublishedPosts()).slice(0, BLOG.postsOnHome);
 
   .hero__title {
     font-family: var(--font-mono);
-    font-size: var(--text-hero);
+    font-size: clamp(2.25rem, 6.2vw, 4.25rem);
     font-weight: 600;
-    line-height: 0.9;
-    letter-spacing: var(--tracking-hero);
+    line-height: 1.06;
+    letter-spacing: 0.01em;
     text-transform: uppercase;
+    max-width: 48rem;
   }
 
   .hero__lede {

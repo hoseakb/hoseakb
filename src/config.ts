@@ -20,15 +20,15 @@ export interface SocialLink {
 export const SITE = {
   /** Absolute origin of the deployed site. No trailing slash. */
   url: "https://sumi.p4ni.com",
-  title: "Sumi",
+  title: "From the Hills of Parbung",
   /**
    * Short Japanese mark used for the vertical rail and the loading screen.
    * Set to an empty string to drop the Japanese accents entirely.
    */
-  titleMark: "墨",
-  tagline: "An Astro theme in ink and paper",
+  titleMark: "",
+  tagline: "An archive of poetry and writings",
   description:
-    "Sumi is a minimal Astro theme built around ink, washi paper and generous negative space. Dual light and dark themes, zero client JavaScript on article pages, and a WebGL ink simulation on the front page.",
+    "Hosea Khawbung is a bi-lingual poet from Parbung, Manipur. An archive of his poetry and other writings in Hmar and English.",
   /** BCP 47 language tag, written to <html lang>. */
   lang: "en",
   /** Used for og:locale. */
@@ -38,10 +38,10 @@ export const SITE = {
 } as const;
 
 export const AUTHOR = {
-  name: "kpab",
-  url: "https://github.com/kpab",
+  name: "Hosea Khawbung",
+  url: "https://github.com/hoseakb",
   /** One or two sentences. Shown on /about and in structured data. */
-  bio: "Designer and developer working on quiet interfaces. Sumi is an attempt to give a blog the pacing of a printed page.",
+  bio: "Hosea Khawbung is a bi-lingual poet from Parbung, a sleepy hill village in the Southern district of Manipur.",
 } as const;
 
 export const NAV: NavItem[] = [
@@ -51,7 +51,7 @@ export const NAV: NavItem[] = [
 ];
 
 export const SOCIAL: SocialLink[] = [
-  { label: "GitHub", href: "https://github.com/kpab/astro-sumi" },
+  { label: "GitHub", href: "https://github.com/hoseakb" },
 ];
 
 export const BLOG = {
@@ -82,7 +82,7 @@ export const INK = {
   /** Full-bleed ink behind the hero. */
   hero: true,
   /** Narrow ink band used as a section transition. */
-  divider: true,
+  divider: false,
   /** Density of each ink splat. Sensible range is 0.3 – 2.5. */
   strength: 1,
   /** Let the ink drift on its own instead of only reacting to the cursor. */

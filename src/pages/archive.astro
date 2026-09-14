@@ -1,0 +1,184 @@
+---
+import PageHeader from "../components/PageHeader.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getPublishedPosts, tagSlug, type Post } from "../utils/posts";
+
+const posts = await getPublishedPosts();
+
+// Group posts by year
+const postsByYear = new Map<number, Post[]>();
+for (const post of posts) {
+  const year = post.data.pubDate.getFullYear();
+  const group = postsByYear.get(year) ?? [];
+  group.push(post);
+  postsByYear.set(year, group);
+}
+
+const years = Array.from(postsByYear.keys()).sort((a, b) => b - a);
+
+const formatDate = (date: Date) => {
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${month}.${day}`;
+};
+---
+
+<BaseLayout
+  title="Archive"
+  description="A complete chronological index of poetry, essays, and writings."
+>
+  <div class="wrap">
+    <PageHeader
+      eyebrow="Index"
+      title="Archive"
+      lede={`A complete chronological index of all ${posts.length} published pieces.`}
+    />
+
+    <div class="archive">
+      {
+        years.map((year) => {
+          const yearPosts = postsByYear.get(year) ?? [];
+          return (
+            <section class="archive__group">
+              <div class="archive__group-head">
+                <h2 class="archive__year label">{year}</h2>
+                <span class="archive__count label">
+                  {yearPosts.length} {yearPosts.length === 1 ? "piece" : "pieces"}
+                </span>
+              </div>
+
+              <ul class="archive__list">
+                {yearPosts.map((post) => (
+                  <li class="archive__item">
+                    <time
+                      class="archive__date label"
+                      datetime={post.data.pubDate.toISOString()}
+                    >
+                      {formatDate(post.data.pubDate)}
+                    </time>
+
+                    <a class="archive__title" href={`/blog/${post.id}/`}>
+                      {post.data.title}
+                    </a>
+
+                    <div class="archive__tags">
+                      {post.data.tags.map((tag) => (
+                        <a
+                          class="archive__tag label"
+                          href={`/tags/${tagSlug(tag)}/`}
+                        >
+                          #{tag}
+                        </a>
+                      ))}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          );
+        })
+      }
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .archive {
+    max-width: var(--width-wide);
+    margin-top: var(--space-12);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+  }
+
+  .archive__group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .archive__group-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding-bottom: var(--space-3);
+    border-bottom: var(--rule-width) solid var(--color-rule);
+  }
+
+  .archive__year {
+    font-size: var(--text-base);
+    font-weight: 600;
+    color: var(--color-fg);
+  }
+
+  .archive__count {
+    color: var(--color-fg-faint);
+  }
+
+  .archive__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .archive__item {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-4) var(--space-6);
+    padding-block: var(--space-4);
+    border-bottom: var(--rule-width) solid var(--color-rule);
+    transition: background var(--duration-fast) var(--ease-out);
+  }
+
+  .archive__item:last-child {
+    border-bottom: none;
+  }
+
+  .archive__date {
+    flex-shrink: 0;
+    width: 3.5rem;
+    color: var(--color-fg-faint);
+  }
+
+  .archive__title {
+    flex: 1;
+    font-size: var(--text-base);
+    line-height: var(--leading-snug);
+    color: var(--color-fg);
+    text-decoration: none;
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  .archive__title:hover {
+    color: var(--color-accent);
+  }
+
+  .archive__tags {
+    display: flex;
+    gap: var(--space-2);
+    flex-shrink: 0;
+  }
+
+  .archive__tag {
+    text-decoration: none;
+    font-size: var(--text-xs);
+    color: var(--color-fg-faint);
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  .archive__tag:hover {
+    color: var(--color-accent);
+  }
+
+  @media (max-width: 40rem) {
+    .archive__item {
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
+
+    .archive__tags {
+      width: 100%;
+      padding-left: 3.5rem;
+    }
+  }
+</style>

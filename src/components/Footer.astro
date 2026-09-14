@@ -6,11 +6,11 @@ const year = new Date().getFullYear();
 
 <footer class="site-footer">
   <div class="wrap site-footer__inner">
-    <p class="site-footer__mark">
-      {SITE.title}{SITE.titleMark && <span> {SITE.titleMark}</span>} — {
-        SITE.tagline
-      }
-    </p>
+    <div class="site-footer__mark">
+      <span class="site-footer__title">{SITE.title}</span>
+      <span class="site-footer__sep" aria-hidden="true">—</span>
+      <span class="site-footer__tagline">{SITE.tagline}</span>
+    </div>
 
     <ul class="site-footer__social">
       {
@@ -22,6 +22,7 @@ const year = new Date().getFullYear();
           </li>
         ))
       }
+      <li><a href="/archive">Archive</a></li>
       <li><a href="/rss.xml">RSS</a></li>
     </ul>
 
@@ -51,6 +52,20 @@ const year = new Date().getFullYear();
     color: var(--color-fg-faint);
   }
 
+  .site-footer__mark {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+  }
+
+  .site-footer__title {
+    color: var(--color-fg-muted);
+  }
+
+  .site-footer__sep {
+    color: var(--color-fg-faint);
+  }
+
   .site-footer__social {
     display: flex;
     gap: var(--space-6);
@@ -71,7 +86,16 @@ const year = new Date().getFullYear();
     margin-left: auto;
   }
 
-  @media (max-width: 40rem) {
+  @media (max-width: 52rem) {
+    .site-footer__mark {
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .site-footer__sep {
+      display: none;
+    }
+
     .site-footer__legal {
       margin-left: 0;
     }

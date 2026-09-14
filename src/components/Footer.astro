@@ -7,12 +7,14 @@ const year = new Date().getFullYear();
 <footer class="site-footer">
   <div class="wrap site-footer__inner">
     <div class="site-footer__mark">
-      <span class="site-footer__title">{SITE.title}</span>
+      <a href="/" class="site-footer__title">{SITE.title}</a>
       <span class="site-footer__sep" aria-hidden="true">—</span>
       <span class="site-footer__tagline">{SITE.tagline}</span>
     </div>
 
     <ul class="site-footer__social">
+      <li><a href="/">Home</a></li>
+      <li><a href="/archive">Archive</a></li>
       {
         SOCIAL.map((link) => (
           <li>
@@ -22,7 +24,6 @@ const year = new Date().getFullYear();
           </li>
         ))
       }
-      <li><a href="/archive">Archive</a></li>
       <li><a href="/rss.xml">RSS</a></li>
     </ul>
 

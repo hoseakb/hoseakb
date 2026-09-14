@@ -20,6 +20,7 @@ const { title, description, ogImage, article } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const image = new URL(ogImage ?? SITE.defaultOgImage, Astro.site);
+image.searchParams.set("v", "2");
 
 const person = {
   "@type": "Person",

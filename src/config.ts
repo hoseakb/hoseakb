@@ -19,7 +19,7 @@ export interface SocialLink {
 
 export const SITE = {
   /** Absolute origin of the deployed site. No trailing slash. */
-  url: "https://sumi.p4ni.com",
+  url: "https://hoseakb.onrender.com",
   title: "From the Hills of Parbung",
   /**
    * Short Japanese mark used for the vertical rail and the loading screen.

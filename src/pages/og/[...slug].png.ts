@@ -24,6 +24,7 @@ export const GET: APIRoute<Props> = async ({ props }) => {
 
   const png = await renderOgImage({
     title: post.data.title,
+    subtitle: "Hosea Khawbung",
     stamp: formatDateStamp(post.data.pubDate),
     tags: post.data.tags,
   });

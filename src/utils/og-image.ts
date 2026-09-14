@@ -32,7 +32,9 @@ const FAINT = "rgba(233,231,225,0.45)";
 const ACCENT = "#c85a52";
 
 interface OgOptions {
+  category?: string;
   title: string;
+  subtitle?: string;
   /** Monospace stamp under the rule, e.g. "2026.05.08". */
   stamp?: string;
   tags?: string[];
@@ -49,10 +51,11 @@ const text = (value: string, style: Record<string, unknown>) =>
   node("div", style, value);
 
 export async function renderOgImage(options: OgOptions): Promise<Buffer> {
-  const { title, stamp, tags = [] } = options;
+  const { category, title, subtitle, stamp, tags = [] } = options;
   const font = await loadFont();
 
   const footer = [stamp, tags.join(" · ")].filter(Boolean).join("  —  ");
+  const eyebrow = category ?? SITE.title.toUpperCase();
 
   const markup = node(
     "div",
@@ -68,28 +71,43 @@ export async function renderOgImage(options: OgOptions): Promise<Buffer> {
       color: PAPER,
     },
     [
-      text(SITE.title.toUpperCase(), {
-        fontSize: 24,
-        letterSpacing: "0.34em",
+      text(eyebrow, {
+        fontSize: 22,
+        letterSpacing: "0.32em",
         color: FAINT,
       }),
 
-      node("div", { display: "flex", flexDirection: "column", gap: 40 }, [
-        text(title, {
-          fontSize: title.length > 46 ? 56 : 68,
-          lineHeight: 1.18,
-          letterSpacing: "-0.01em",
-        }),
-        node("div", {
-          display: "flex",
-          width: 96,
-          height: 3,
-          backgroundColor: ACCENT,
-        }),
-      ]),
+      node(
+        "div",
+        { display: "flex", flexDirection: "column", gap: subtitle ? 20 : 36 },
+        [
+          text(title, {
+            fontSize: title.length > 36 ? 52 : 64,
+            lineHeight: 1.16,
+            letterSpacing: "-0.01em",
+          }),
+          ...(subtitle
+            ? [
+                text(subtitle, {
+                  fontSize: 26,
+                  lineHeight: 1.4,
+                  letterSpacing: "0.01em",
+                  color: "rgba(233,231,225,0.72)",
+                }),
+              ]
+            : []),
+          node("div", {
+            display: "flex",
+            width: 96,
+            height: 3,
+            backgroundColor: ACCENT,
+            marginTop: subtitle ? 8 : 0,
+          }),
+        ],
+      ),
 
       text(footer, {
-        fontSize: 22,
+        fontSize: 20,
         letterSpacing: "0.14em",
         color: FAINT,
       }),

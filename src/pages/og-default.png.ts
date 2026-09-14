@@ -6,8 +6,11 @@ import { renderOgImage } from "../utils/og-image";
 /** The preview used by every page that is not an article. */
 export const GET: APIRoute = async () => {
   const png = await renderOgImage({
-    title: SITE.tagline,
-    stamp: SITE.url.replace(/^https?:\/\//, ""),
+    category: "AN ARCHIVE OF POETRY & WRITINGS",
+    title: SITE.title,
+    subtitle: "Hosea Khawbung — Poetry & Writings from Parbung, Manipur",
+    stamp: "Parbung, Manipur",
+    tags: ["Hmar", "English"],
   });
 
   return new Response(new Uint8Array(png), {

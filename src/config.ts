@@ -52,6 +52,14 @@ export const NAV: NavItem[] = [
 
 export const SOCIAL: SocialLink[] = [
   { label: "GitHub", href: "https://github.com/hoseakb" },
+  {
+    label: "ResearchGate",
+    href: "https://www.researchgate.net/profile/Hosea-Lalremruot",
+  },
+  {
+    label: "ORCID",
+    href: "https://orcid.org/0009-0003-4131-1286",
+  },
 ];
 
 export const BLOG = {

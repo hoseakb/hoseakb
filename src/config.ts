@@ -51,6 +51,7 @@ export const NAV: NavItem[] = [
 ];
 
 export const SOCIAL: SocialLink[] = [
+  { label: "Instagram", href: "https://www.instagram.com/hosea_khawbung" },
   { label: "GitHub", href: "https://github.com/hoseakb" },
   {
     label: "ResearchGate",

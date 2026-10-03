@@ -4,49 +4,66 @@ import "../styles/prose.css";
 import PageHeader from "../components/PageHeader.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { AUTHOR, SOCIAL } from "../config";
+import SocialIcon from "../components/SocialIcon.astro";
 
 const colophon = [
   { term: "Author", value: "Hosea Khawbung" },
-  { term: "Origin", value: "Parbung, Manipur" },
+  { term: "Origin", value: "Parbung, Pherzawl, Manipur" },
+  { term: "Tradition", value: "Hmar folklore & modern verse" },
   { term: "Languages", value: "Hmar · English" },
-  { term: "Archive", value: "Poetry · Essays · Commentary" },
+  { term: "Archive Span", value: "2017 – Present" },
+  { term: "Typography", value: "Source Serif 4 · JetBrains Mono" },
 ];
 ---
 
 <BaseLayout title="About" description={AUTHOR.bio}>
   <div class="wrap">
-    <PageHeader eyebrow="Author" title="About" lede={AUTHOR.bio} />
+    <PageHeader eyebrow="Author & Archive" title="About" />
 
     <div class="about">
-      <div class="prose about__body">
-        <p>
-          Hosea Khawbung is a bi-lingual poet from Parbung, a sleepy hill village in the Southern district of Manipur.
-        </p>
+      <div class="about__main">
+        <blockquote class="about__epigraph">
+          <p class="about__epigraph-quote">“I am a practitioner of poetry. Not yet a poet.”</p>
+          <cite class="label about__epigraph-cite">— Hosea Khawbung, <em>To be your poet</em></cite>
+        </blockquote>
 
-        <p>
-          He writes primarily in Hmar, his mother tongue, and English, his language of interaction with the rest of the world.
-        </p>
+        <div class="prose about__body">
+          <p>
+            Hosea Khawbung is a bi-lingual poet from Parbung, a sleepy hill village in the Southern district of Manipur.
+          </p>
 
-        <p>
-          This website is an archive of his poetry and other writings.
-        </p>
+          <p>
+            He writes primarily in Hmar, his mother tongue, and English, his language of interaction with the rest of the world.
+          </p>
 
-        <h2>Elsewhere</h2>
+          <p>
+            This website serves as an archival sanctuary for his poetry, personal essays, reflections, and tribal folklore.
+          </p>
+        </div>
 
-        <ul>
-          {
-            SOCIAL.map((link) => (
-              <li>
-                <a href={link.href} rel="noopener">
-                  {link.label}
+        <div class="about__connect">
+          <p class="label about__connect-label">Profiles & Scholarship</p>
+          <div class="social-links-row" aria-label="Social and academic profiles">
+            {
+              SOCIAL.map((link) => (
+                <a
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="social-icon-btn"
+                  aria-label={link.label}
+                  title={link.label}
+                >
+                  <SocialIcon name={link.label} class="social-icon-svg" />
                 </a>
-              </li>
-            ))
-          }
-        </ul>
+              ))
+            }
+          </div>
+        </div>
       </div>
 
       <aside class="about__aside">
+        <h2 class="label about__aside-title">Colophon</h2>
         <dl class="about__colophon">
           {
             colophon.map((row) => (
@@ -65,20 +82,104 @@ const colophon = [
 <style>
   .about {
     display: grid;
-    grid-template-columns: minmax(0, var(--width-prose)) 13rem;
-    gap: clamp(var(--space-8), 6vw, var(--space-16));
+    grid-template-columns: minmax(0, var(--width-prose)) 14rem;
+    gap: clamp(var(--space-8), 6vw, var(--space-12));
     justify-content: center;
     align-items: start;
     padding-block: var(--space-12);
   }
 
-  .about__aside {
+  .about__main {
     display: flex;
-    gap: var(--space-6);
+    flex-direction: column;
   }
 
-  .about__rail {
-    height: 12rem;
+  /* Epigraph */
+  .about__epigraph {
+    margin-bottom: var(--space-8);
+    padding: var(--space-3) 0 var(--space-3) var(--space-6);
+    border-left: 2px solid var(--color-accent);
+  }
+
+  .about__epigraph-quote {
+    font-size: var(--text-lg);
+    font-style: italic;
+    line-height: var(--leading-normal);
+    color: var(--color-fg);
+  }
+
+  .about__epigraph-cite {
+    display: block;
+    margin-top: var(--space-2);
+    color: var(--color-fg-muted);
+  }
+
+  .about__epigraph-cite em {
+    font-style: italic;
+    text-transform: none;
+  }
+
+  /* Connect row */
+  .about__connect {
+    margin-top: var(--space-10);
+    padding-top: var(--space-6);
+    border-top: var(--rule-width) solid var(--color-rule);
+  }
+
+  .about__connect-label {
+    color: var(--color-fg-faint);
+    margin-bottom: var(--space-3);
+  }
+
+  .social-links-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .social-icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: var(--rule-width) solid var(--color-rule);
+    border-radius: var(--radius);
+    color: var(--color-fg-muted);
+    background: var(--color-bg);
+    text-decoration: none !important;
+    transition:
+      color var(--duration-fast) var(--ease-out),
+      border-color var(--duration-fast) var(--ease-out),
+      background var(--duration-fast) var(--ease-out),
+      transform var(--duration-fast) var(--ease-out);
+  }
+
+  .social-icon-btn:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    background: var(--color-bg-subtle);
+    transform: translateY(-2px);
+  }
+
+  .social-icon-btn :global(.social-icon-svg) {
+    width: 1.25rem;
+    height: 1.25rem;
+    display: block;
+  }
+
+  /* Colophon sidebar */
+  .about__aside {
+    display: flex;
+    flex-direction: column;
+    padding-left: clamp(var(--space-6), 3vw, var(--space-10));
+    border-left: var(--rule-width) solid var(--color-rule);
+  }
+
+  .about__aside-title {
+    margin-bottom: var(--space-6);
+    color: var(--color-accent);
   }
 
   .about__colophon {
@@ -103,12 +204,10 @@ const colophon = [
     }
 
     .about__aside {
+      padding-left: 0;
       padding-top: var(--space-8);
+      border-left: none;
       border-top: var(--rule-width) solid var(--color-rule);
-    }
-
-    .about__rail {
-      display: none;
     }
   }
 </style>

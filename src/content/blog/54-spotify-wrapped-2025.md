@@ -8,17 +8,17 @@ tags:
 draft: false
 ---
 
-Except this poem is not about
-the year end Spotify Wrapped.
-I shall not actually talk about it
-because Spotify, anyway,
-would have never done enough justice
-when it comes to the sweet turbulence
-associated with you in the statistics report
+Except this poem is not about<br />
+the year end Spotify Wrapped.<br />
+I shall not actually talk about it<br />
+because Spotify, anyway,<br />
+would have never done enough justice<br />
+when it comes to the sweet turbulence<br />
+associated with you in the statistics report<br />
 of my post summer landscape 2025.
 
-That is to say, Toi,
-wrap me around more. Engulf me
-in your winter blanket of loveliness.
-Wrap me around your little finger.
+That is to say, Toi,<br />
+wrap me around more. Engulf me<br />
+in your winter blanket of loveliness.<br />
+Wrap me around your little finger.<br />
 Just as you now do with your eyes.

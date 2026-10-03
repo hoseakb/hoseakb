@@ -1,80 +1,313 @@
 ---
 import PageHeader from "../../components/PageHeader.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { collectTags, getPublishedPosts } from "../../utils/posts";
+import { formatDateStamp } from "../../utils/date";
+import { getPublishedPosts, postsByTag } from "../../utils/posts";
 
 const posts = await getPublishedPosts();
-const tags = collectTags(posts);
 
-const pad = (n: number) => String(n).padStart(2, "0");
+const hmarPosts = postsByTag(posts, "hmar");
+const englishPosts = postsByTag(posts, "english");
+const tributePosts = postsByTag(posts, "kynpham-sing-nongkynrih");
 ---
 
 <BaseLayout
-  title="Tags"
-  description="Every subject covered on the blog, with the number of posts under each."
+  title="Language & Subject Index"
+  description="Index of poems by language (Hmar, English) and literary subjects."
 >
   <div class="wrap">
     <PageHeader
       eyebrow="Index"
-      title="Tags"
-      lede={`${tags.length} subjects across ${posts.length} posts.`}
+      title="Language & Index"
+      lede="The archive organized by language of composition and literary subjects."
     />
 
-    {
-      tags.length > 0 ? (
-        <ul class="tag-grid rule-grid">
-          {tags.map((tag, index) => (
-            <li>
-              <a class="tag-cell" href={`/tags/${tag.slug}/`}>
-                <span class="tag-cell__no label">{pad(index + 1)}</span>
-                <span class="tag-cell__name">{tag.name}</span>
-                <span class="tag-cell__count label">
-                  {tag.count} {tag.count === 1 ? "post" : "posts"}
-                </span>
-              </a>
-            </li>
-          ))}
+    <!-- Quick filter pill bar -->
+    <nav class="index-nav" aria-label="Index filters">
+      <a class="index-pill" href="#hmar">
+        <span>Hmar</span>
+        <span class="index-pill__count">{hmarPosts.length}</span>
+      </a>
+      <a class="index-pill" href="#english">
+        <span>English</span>
+        <span class="index-pill__count">{englishPosts.length}</span>
+      </a>
+      <a class="index-pill" href="#tributes">
+        <span>Tributes & Mentions</span>
+        <span class="index-pill__count">{tributePosts.length}</span>
+      </a>
+      <a class="index-pill" href="/archive/">
+        <span>The Complete List</span>
+        <span class="index-pill__count">{posts.length}</span>
+      </a>
+    </nav>
+
+    <div class="index-sections">
+      <!-- Section 1: Hmar Poems -->
+      <section id="hmar" class="index-section">
+        <header class="index-section__header">
+          <div class="index-section__meta">
+            <span class="label index-section__tag">Language</span>
+            <span class="label">{hmarPosts.length} pieces</span>
+          </div>
+          <h2 class="index-section__title">Hmar</h2>
+          <p class="index-section__desc">
+            Poems composed in Hmar, the language of Parbung and the southern hills.
+          </p>
+        </header>
+
+        <ul class="index-list">
+          {
+            hmarPosts.map((post) => (
+              <li class="index-item">
+                <a class="index-item__link" href={`/blog/${post.id}/`}>
+                  <time class="label index-item__time" datetime={post.data.pubDate.toISOString()}>
+                    {formatDateStamp(post.data.pubDate)}
+                  </time>
+                  <span class="index-item__title">{post.data.title}</span>
+                  {post.data.description && (
+                    <span class="index-item__snippet">{post.data.description}</span>
+                  )}
+                </a>
+              </li>
+            ))
+          }
         </ul>
-      ) : (
-        <p class="tag-grid__empty lede">No tags yet.</p>
-      )
-    }
+      </section>
+
+      <!-- Section 2: Tributes & Dialogue -->
+      <section id="tributes" class="index-section">
+        <header class="index-section__header">
+          <div class="index-section__meta">
+            <span class="label index-section__tag">Literary Dedications</span>
+            <span class="label">{tributePosts.length} piece</span>
+          </div>
+          <h2 class="index-section__title">Tributes & Influences</h2>
+          <p class="index-section__desc">
+            Poems written in dialogue with or dedicated to fellow poets and writers.
+          </p>
+        </header>
+
+        <ul class="index-list">
+          {
+            tributePosts.map((post) => (
+              <li class="index-item">
+                <a class="index-item__link" href={`/blog/${post.id}/`}>
+                  <time class="label index-item__time" datetime={post.data.pubDate.toISOString()}>
+                    {formatDateStamp(post.data.pubDate)}
+                  </time>
+                  <span class="index-item__title">{post.data.title}</span>
+                  {post.data.description && (
+                    <span class="index-item__snippet">{post.data.description}</span>
+                  )}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <!-- Section 3: English Works -->
+      <section id="english" class="index-section">
+        <header class="index-section__header">
+          <div class="index-section__meta">
+            <span class="label index-section__tag">Language</span>
+            <span class="label">{englishPosts.length} pieces</span>
+          </div>
+          <h2 class="index-section__title">English</h2>
+          <p class="index-section__desc">
+            The collection of {englishPosts.length} poems and reflections composed in English.
+          </p>
+        </header>
+
+        <div class="english-box">
+          <p class="english-box__text">
+            All English poems can be explored chronologically in <strong>The List</strong> or page-by-page in <strong>Poems</strong>.
+          </p>
+          <div class="english-box__actions">
+            <a class="index-btn" href="/archive/">
+              Browse all {englishPosts.length} English poems in The List →
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
   </div>
 </BaseLayout>
 
 <style>
-  .tag-grid {
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr));
-    margin-top: var(--space-12);
-    padding: 0;
-    list-style: none;
+  /* Quick filter pills */
+  .index-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-8);
+    padding-bottom: var(--space-8);
+    border-bottom: var(--rule-width) solid var(--color-rule);
   }
 
-  .tag-cell {
+  .index-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    border: var(--rule-width) solid var(--color-rule);
+    border-radius: var(--radius);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--color-fg-muted);
+    transition:
+      border-color var(--duration-fast) var(--ease-out),
+      color var(--duration-fast) var(--ease-out),
+      background var(--duration-fast) var(--ease-out);
+  }
+
+  .index-pill:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    background: var(--color-bg-subtle);
+  }
+
+  .index-pill__count {
+    color: var(--color-accent);
+    font-weight: 600;
+  }
+
+  /* Index sections */
+  .index-sections {
     display: flex;
     flex-direction: column;
-    gap: var(--space-2);
-    min-height: 9rem;
-    padding: var(--space-6);
+    gap: var(--space-16);
+    padding-block: var(--space-12) var(--space-20);
+  }
+
+  .index-section {
+    scroll-margin-top: var(--space-16);
+  }
+
+  .index-section__header {
+    margin-bottom: var(--space-6);
+  }
+
+  .index-section__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-2);
+  }
+
+  .index-section__tag {
+    color: var(--color-accent);
+    text-transform: uppercase;
+  }
+
+  .index-section__title {
+    font-size: var(--text-xl);
+    font-weight: 500;
+  }
+
+  .index-section__desc {
+    margin-top: var(--space-2);
+    font-size: var(--text-sm);
+    color: var(--color-fg-muted);
+  }
+
+  /* Index item list */
+  .index-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: var(--rule-width) solid var(--color-rule);
+  }
+
+  .index-item {
+    border-bottom: var(--rule-width) solid var(--color-rule);
+  }
+
+  .index-item__link {
+    display: grid;
+    grid-template-columns: 7rem 1fr;
+    gap: var(--space-4);
+    align-items: baseline;
+    padding: var(--space-4) var(--space-2);
     text-decoration: none;
     transition: background var(--duration-fast) var(--ease-out);
   }
 
-  .tag-cell:hover {
+  .index-item__link:hover {
     background: var(--color-bg-subtle);
-    color: inherit;
   }
 
-  .tag-cell__name {
-    margin-top: auto;
-    font-size: var(--text-lg);
+  .index-item__time {
+    color: var(--color-fg-faint);
   }
 
-  .tag-cell:hover .tag-cell__name {
+  .index-item__title {
+    font-size: var(--text-md);
+    font-weight: 500;
+    color: var(--color-fg);
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  .index-item__link:hover .index-item__title {
     color: var(--color-accent);
   }
 
-  .tag-grid__empty {
-    margin-top: var(--space-12);
+  .index-item__snippet {
+    grid-column: 2;
+    font-size: var(--text-sm);
+    color: var(--color-fg-muted);
+    line-height: var(--leading-relaxed);
+  }
+
+  /* English box */
+  .english-box {
+    padding: var(--space-8);
+    border: var(--rule-width) solid var(--color-rule);
+    border-radius: var(--radius);
+    background: var(--color-bg);
+  }
+
+  .english-box__text {
+    font-size: var(--text-md);
+    color: var(--color-fg-muted);
+    margin-bottom: var(--space-6);
+  }
+
+  .index-btn {
+    display: inline-block;
+    padding: var(--space-3) var(--space-6);
+    border: var(--rule-width) solid var(--color-rule-strong);
+    border-radius: var(--radius);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--color-fg);
+    transition:
+      background var(--duration-fast) var(--ease-out),
+      border-color var(--duration-fast) var(--ease-out),
+      color var(--duration-fast) var(--ease-out);
+  }
+
+  .index-btn:hover {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-accent-fg);
+  }
+
+  @media (max-width: 40rem) {
+    .index-item__link {
+      grid-template-columns: 1fr;
+      gap: var(--space-1);
+    }
+
+    .index-item__snippet {
+      grid-column: 1;
+    }
   }
 </style>

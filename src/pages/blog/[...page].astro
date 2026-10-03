@@ -19,7 +19,7 @@ interface Props {
 
 const { page } = Astro.props;
 
-const title = page.currentPage > 1 ? `Blog — page ${page.currentPage}` : "Blog";
+const title = page.currentPage > 1 ? `Poems — page ${page.currentPage}` : "Poems";
 ---
 
 <BaseLayout
@@ -28,8 +28,8 @@ const title = page.currentPage > 1 ? `Blog — page ${page.currentPage}` : "Blog
 >
   <div class="wrap">
     <PageHeader
-      eyebrow="Writing"
-      title="Blog"
+      eyebrow="Collection"
+      title="Poems"
       lede="Poems, essays, and writings in Hmar and English."
     />
 
@@ -37,7 +37,7 @@ const title = page.currentPage > 1 ? `Blog — page ${page.currentPage}` : "Blog
       {page.data.map((post) => <PostCard post={post} />)}
     </div>
 
-    <Pagination page={page} label="Blog posts" />
+    <Pagination page={page} label="Poems" />
   </div>
 </BaseLayout>
 

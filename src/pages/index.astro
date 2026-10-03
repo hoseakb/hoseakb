@@ -1,76 +1,165 @@
 ---
-import FluidInk from "../components/FluidInk.astro";
+import { render } from "astro:content";
 import PostCard from "../components/PostCard.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { BLOG, INK, SITE } from "../config";
-import { getPublishedPosts } from "../utils/posts";
+import { BLOG, SITE } from "../config";
+import { formatDate, isoDate } from "../utils/date";
+import { getPublishedPosts, type Post } from "../utils/posts";
+import "../styles/prose.css";
 
-const posts = (await getPublishedPosts()).slice(0, BLOG.postsOnHome);
+const allPosts = await getPublishedPosts();
+
+// Curated shortlist of short, evocative poems (~10–14 lines) for dynamic rotation
+const CANDIDATE_IDS = [
+  "14-tailoring",
+  "68-your-ear",
+  "58-to-be-your-poet",
+  "66-your-witness",
+  "28-september-rain",
+  "63-your-hands",
+];
+
+const featuredCandidates = (
+  await Promise.all(
+    CANDIDATE_IDS.map(async (id) => {
+      const post = allPosts.find((p) => p.id === id);
+      if (!post) return null;
+      const { Content } = await render(post);
+      return { post, Content };
+    }),
+  )
+).filter(
+  (item): item is { post: Post; Content: any } => item !== null,
+);
+
+const recentPosts = allPosts.slice(0, BLOG.postsOnHome ?? 6);
 ---
 
-<BaseLayout overlayHeader>
-  <FluidInk variant="hero" enabled={INK.hero}>
-    <div class="hero">
-      <p class="hero__eyebrow">Essays · Commentary · Poetry</p>
-      <h1 class="hero__title">From the hills of Parbung</h1>
-      <p class="hero__lede">{SITE.tagline}</p>
-      <p class="hero__cta">
-        <a href="/blog/">Read the blog ↓</a>
-      </p>
+<BaseLayout>
+  <!-- Masthead / Archival Colophon -->
+  <header class="masthead wrap">
+    <div class="masthead__inner">
+      <p class="masthead__kicker label">Poetry Archive · Parbung & Churachandpur</p>
+      <h1 class="masthead__title">{SITE.title}</h1>
     </div>
+  </header>
 
-    {
-      SITE.titleMark && (
-        <p class="hero__rail tategaki" aria-hidden="true">
-          墨と水 — INK IN WATER
-        </p>
-      )
-    }
+  <!-- Featured / Opening Poem (Rotates on refresh + shuffle button) -->
+  <section class="featured-section wrap">
+    <div class="featured-deck" data-featured-deck>
+      {
+        featuredCandidates.map(({ post, Content }, index) => (
+          <article
+            class="featured-book"
+            data-poem-card
+            style={index === 0 ? undefined : "display: none;"}
+          >
+            <header class="featured-book__header">
+              <div class="featured-book__meta">
+                <span class="featured-book__badge label">Opening Poem</span>
+                <time class="label" datetime={isoDate(post.data.pubDate)}>
+                  {formatDate(post.data.pubDate)}
+                </time>
+                <button
+                  type="button"
+                  class="featured-book__shuffle label"
+                  data-shuffle-btn
+                  aria-label="Show another featured poem"
+                  title="Click to view another poem"
+                >
+                  Another poem ↻
+                </button>
+              </div>
+              <h2 class="featured-book__title">
+                <a href={`/blog/${post.id}/`}>{post.data.title}</a>
+              </h2>
+            </header>
 
-    {
-      INK.hero && (
-        <p class="hero__notes" aria-hidden="true">
-          <span>Navier–Stokes / WebGL2</span>
-          <span class="hero__notes-mid">Scroll ↓</span>
-          <span>Move — stir the ink</span>
-        </p>
-      )
-    }
-  </FluidInk>
+            <div class="prose featured-book__body">
+              <Content />
+            </div>
 
-  <section class="section wrap">
-    <div class="latest__head">
-      <h2 class="eyebrow">Latest</h2>
-      <a class="latest__all label" href="/blog/">All posts →</a>
-    </div>
-
-    <div class="latest__list">
-      {posts.map((post) => <PostCard post={post} />)}
+            <footer class="featured-book__footer">
+              <a class="featured-book__link label" href={`/blog/${post.id}/`}>
+                Read notes & metadata →
+              </a>
+            </footer>
+          </article>
+        ))
+      }
     </div>
   </section>
 
-  {
-    INK.divider && (
-      <FluidInk variant="divider" strength={INK.strength * 0.7}>
-        <p class="divider__label label">From the hills of Parbung</p>
-      </FluidInk>
-    )
-  }
+  <!-- Recent Poems Collection -->
+  <section class="section wrap latest-section">
+    <div class="latest__head">
+      <div>
+        <h2 class="eyebrow">Recent Poems</h2>
+        <p class="label latest__sub">From the archive of {allPosts.length} pieces</p>
+      </div>
+      <a class="latest__all label" href="/archive/">The List (All {allPosts.length}) →</a>
+    </div>
+
+    <div class="latest__list">
+      {recentPosts.map((post) => <PostCard post={post} />)}
+    </div>
+
+    <div class="latest__foot">
+      <a class="latest__more-btn" href="/archive/">
+        View all {allPosts.length} poems in The List →
+      </a>
+    </div>
+  </section>
 </BaseLayout>
 
+<script is:inline>
+  (() => {
+    const deck = document.querySelector("[data-featured-deck]");
+    if (!deck) return;
+    const cards = deck.querySelectorAll("[data-poem-card]");
+    if (cards.length <= 1) return;
+
+    // Pick random index on each refresh
+    let currentIdx = Math.floor(Math.random() * cards.length);
+
+    const activateCard = (idx) => {
+      cards.forEach((card, i) => {
+        card.style.display = i === idx ? "" : "none";
+      });
+      currentIdx = idx;
+    };
+
+    activateCard(currentIdx);
+
+    // Shuffle button interaction
+    deck.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-shuffle-btn]");
+      if (!btn) return;
+      const nextIdx = (currentIdx + 1) % cards.length;
+      activateCard(nextIdx);
+    });
+  })();
+</script>
+
 <style>
-  .hero {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-6);
-    padding: var(--space-24) var(--gutter);
-    text-align: center;
+  /* Masthead / Colophon */
+  .masthead {
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-8);
+    text-align: left;
+    border-bottom: var(--rule-width) solid var(--color-rule);
   }
 
-  .hero__eyebrow {
+  .masthead__inner {
+    max-width: 42rem;
+    margin-inline: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+  }
+
+  .masthead__kicker {
     font-family: var(--font-mono);
     font-size: var(--text-xs);
     letter-spacing: var(--tracking-wide);
@@ -78,69 +167,114 @@ const posts = (await getPublishedPosts()).slice(0, BLOG.postsOnHome);
     color: var(--color-accent);
   }
 
-  .hero__title {
-    font-family: var(--font-mono);
-    font-size: clamp(1.75rem, 6vw, 4.25rem);
-    font-weight: 600;
-    line-height: 1.08;
-    letter-spacing: 0.01em;
-    text-transform: uppercase;
-    max-width: 48rem;
+  .masthead__title {
+    font-family: var(--font-serif);
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    font-weight: 500;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
   }
 
-  .hero__lede {
-    max-width: 32rem;
-    font-size: var(--text-md);
-    color: var(--color-fg-muted);
+  /* Featured Poem / Open Book */
+  .featured-section {
+    padding-block: var(--space-10) var(--space-14);
   }
 
-  .hero__cta a {
-    display: inline-block;
-    padding: var(--space-3) var(--space-6);
-    border: var(--rule-width) solid var(--color-accent);
+  .featured-book {
+    max-width: 36rem;
+    margin-inline: 0;
+    padding: var(--space-8);
+    background: var(--color-bg);
+    border: var(--rule-width) solid var(--color-rule);
     border-radius: var(--radius);
-    font-family: var(--font-mono);
-    font-size: var(--text-sm);
-    letter-spacing: var(--tracking-label);
-    text-transform: uppercase;
-    text-decoration: none;
+    box-shadow: none;
+  }
+
+  .featured-book__header {
+    padding-bottom: var(--space-4);
+    margin-bottom: var(--space-6);
+    border-bottom: var(--rule-width) solid var(--color-rule);
+    text-align: left;
+  }
+
+  .featured-book__meta {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: var(--space-3);
+    margin-bottom: var(--space-3);
+  }
+
+  .featured-book__badge {
+    padding: 0.15em 0.5em;
+    background: var(--color-bg-subtle);
+    border: var(--rule-width) solid var(--color-rule);
+    border-radius: var(--radius);
     color: var(--color-accent);
-    transition:
-      background var(--duration-fast) var(--ease-out),
-      color var(--duration-fast) var(--ease-out);
+    text-transform: uppercase;
+    font-size: var(--text-xs);
   }
 
-  .hero__cta a:hover {
-    background: var(--color-accent);
-    color: var(--color-accent-fg);
-  }
-
-  .hero__rail {
-    position: absolute;
-    top: 50%;
-    right: var(--gutter);
-    translate: 0 -50%;
-  }
-
-  /* These describe the simulation, so they only appear once it has actually
-     started — not when it declined for reduced motion or missing WebGL2. The
-     element tags itself with data-ink-active on boot. */
-  .hero__notes {
-    display: none;
-    position: absolute;
-    inset-inline: var(--gutter);
-    bottom: var(--space-6);
-    justify-content: space-between;
-    gap: var(--space-4);
+  .featured-book__shuffle {
+    margin-left: auto;
+    background: none;
+    border: none;
+    padding: 0;
     font-family: var(--font-mono);
     font-size: var(--text-xs);
     letter-spacing: var(--tracking-label);
     text-transform: uppercase;
     color: var(--color-fg-faint);
+    cursor: pointer;
+    transition: color var(--duration-fast) var(--ease-out);
   }
 
-  :global(.ink:has([data-ink-active])) .hero__notes {
-    display: flex;
+  .featured-book__shuffle:hover {
+    color: var(--color-accent);
+  }
+
+  .featured-book__title {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 500;
+    line-height: 1.2;
+    margin-bottom: var(--space-2);
+  }
+
+  .featured-book__title a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .featured-book__title a:hover {
+    color: var(--color-accent);
+  }
+
+  .featured-book__body {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    text-align: left;
+  }
+
+  .featured-book__footer {
+    margin-top: var(--space-8);
+    padding-top: var(--space-6);
+    border-top: var(--rule-width) solid var(--color-rule);
+    text-align: left;
+  }
+
+  .featured-book__link {
+    text-decoration: none;
+    color: var(--color-fg-muted);
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  .featured-book__link:hover {
+    color: var(--color-accent);
+  }
+
+  /* Latest Section */
+  .latest-section {
+    padding-bottom: var(--space-20);
   }
 
   .latest__head {
@@ -150,6 +284,11 @@ const posts = (await getPublishedPosts()).slice(0, BLOG.postsOnHome);
     gap: var(--space-4);
     padding-bottom: var(--space-6);
     border-bottom: var(--rule-width) solid var(--color-rule);
+  }
+
+  .latest__sub {
+    margin-top: var(--space-1);
+    color: var(--color-fg-faint);
   }
 
   .latest__all {
@@ -164,28 +303,37 @@ const posts = (await getPublishedPosts()).slice(0, BLOG.postsOnHome);
     border-bottom: none;
   }
 
-  .divider__label {
-    margin: auto;
+  .latest__foot {
+    margin-top: var(--space-12);
     text-align: center;
   }
 
-  @media (max-width: 55rem) {
-    .hero__rail,
-    .hero__notes-mid {
-      display: none;
-    }
+  .latest__more-btn {
+    display: inline-block;
+    padding: var(--space-4) var(--space-8);
+    border: var(--rule-width) solid var(--color-rule-strong);
+    border-radius: var(--radius);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--color-fg);
+    transition:
+      background var(--duration-fast) var(--ease-out),
+      border-color var(--duration-fast) var(--ease-out),
+      color var(--duration-fast) var(--ease-out);
   }
 
-  @media (max-width: 40rem) {
-    .hero {
-      padding-block: var(--space-16);
-      gap: var(--space-4);
-    }
+  .latest__more-btn:hover {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-accent-fg);
   }
 
-  @media (max-width: 34rem) {
-    :global(.ink:has([data-ink-active])) .hero__notes {
-      display: none;
+  @media (max-width: 45rem) {
+    .featured-book {
+      padding: var(--space-6) var(--space-5);
     }
   }
 </style>

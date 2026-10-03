@@ -9,20 +9,20 @@ tags:
 draft: false
 ---
 
-Kan siengna zuopa le a rûninsung hlak
-rothangpui sum le pai luonglutna insung
-a ni si naw a.
-Ka chanvo ding rothil inkhawl hner hnur
-chu hril lo, retheina vângsie'n a mi châm chil
-zawm zing a. Nang ka chanvo laia tiem sa
-i ni nawk naw lem chun chu, ka chan a si sâwt
-âwm êm leiin ka ṭithâwng nâwk hlak,
+Kan siengna zuopa le a rûninsung hlak<br />
+rothangpui sum le pai luonglutna insung<br />
+a ni si naw a.<br />
+Ka chanvo ding rothil inkhawl hner hnur<br />
+chu hril lo, retheina vângsie'n a mi châm chil<br />
+zawm zing a. Nang ka chanvo laia tiem sa<br />
+i ni nawk naw lem chun chu, ka chan a si sâwt<br />
+âwm êm leiin ka ṭithâwng nâwk hlak,<br />
 tinkim ka dâwn lunginno chângin.
 
-Ṭhamâmpui, ka chanpuol dinga ruot,
-khuonu samsui rem sa,
-zân tina induotna thlenêmpuon kan zâwn pui ding
-ni kumkhuo la.
-Dawmlai rila ra nau malsawmna tluontling leh,
-hringnun fe lai lamtluongpui hih a tawp râwt chenin
+Ṭhamâmpui, ka chanpuol dinga ruot,<br />
+khuonu samsui rem sa,<br />
+zân tina induotna thlenêmpuon kan zâwn pui ding<br />
+ni kumkhuo la.<br />
+Dawmlai rila ra nau malsawmna tluontling leh,<br />
+hringnun fe lai lamtluongpui hih a tawp râwt chenin<br />
 mi hraw suok pui ngei raw aw.

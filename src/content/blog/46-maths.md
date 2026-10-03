@@ -9,9 +9,9 @@ tags:
 draft: false
 ---
 
-To contextualise, I am an English Literature
-student and by virtue of that choice,
+To contextualise, I am an English Literature<br />
+student and by virtue of that choice,<br />
 teaching the same subject as a profession.
 
-Mathematics, however, is always one poetry
+Mathematics, however, is always one poetry<br />
 I would always

@@ -45,7 +45,8 @@ export const AUTHOR = {
 } as const;
 
 export const NAV: NavItem[] = [
-  { label: "Blog", href: "/blog" },
+  { label: "Poems", href: "/blog" },
+  { label: "The List", href: "/archive" },
   { label: "Tags", href: "/tags" },
   { label: "About", href: "/about" },
 ];
@@ -89,7 +90,7 @@ export const BLOG = {
  */
 export const INK = {
   /** Full-bleed ink behind the hero. */
-  hero: true,
+  hero: false,
   /** Narrow ink band used as a section transition. */
   divider: false,
   /** Density of each ink splat. Sensible range is 0.3 – 2.5. */

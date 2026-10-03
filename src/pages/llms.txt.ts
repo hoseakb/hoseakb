@@ -2,7 +2,7 @@ import type { APIRoute } from "astro";
 
 import { AUTHOR, SITE } from "../config";
 import { formatDate } from "../utils/date";
-import { collectTags, getPublishedPosts } from "../utils/posts";
+import { getPublishedPosts } from "../utils/posts";
 
 /**
  * https://llmstxt.org — a plain-text index of the site for language models,
@@ -10,7 +10,6 @@ import { collectTags, getPublishedPosts } from "../utils/posts";
  */
 export const GET: APIRoute = async ({ site }) => {
   const posts = await getPublishedPosts();
-  const tags = collectTags(posts);
   const absolute = (path: string) => new URL(path, site).href;
 
   const lines = [
@@ -31,9 +30,10 @@ export const GET: APIRoute = async ({ site }) => {
     "",
     "## Pages",
     "",
-    `- [Blog](${absolute("/blog/")}): every post, newest first.`,
-    `- [Tags](${absolute("/tags/")}): ${tags.map((t) => t.name).join(", ")}.`,
-    `- [About](${absolute("/about/")}): about the author and this theme.`,
+    `- [Poems](${absolute("/blog/")}): every poem, newest first.`,
+    `- [The List](${absolute("/archive/")}): chronological archive of all poems.`,
+    `- [Tags](${absolute("/tags/")}): language & subject index.`,
+    `- [About](${absolute("/about/")}): about the author and the archive.`,
     "",
     "## Feeds",
     "",

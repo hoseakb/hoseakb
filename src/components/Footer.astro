@@ -15,8 +15,8 @@ const year = new Date().getFullYear();
     <nav class="site-footer__nav" aria-label="Footer navigation">
       <ul class="site-footer__social">
         <li><a href="/">Home</a></li>
-        <li><a href="/blog/">Blog</a></li>
-        <li><a href="/archive/">Archive</a></li>
+        <li><a href="/blog/">Poems</a></li>
+        <li><a href="/archive/">The List</a></li>
         <li><a href="/tags/">Tags</a></li>
         <li><a href="/about/">About</a></li>
         {
@@ -35,6 +35,10 @@ const year = new Date().getFullYear();
     <div class="site-footer__meta">
       <p class="site-footer__legal">
         © {year} <a href={AUTHOR.url}>{AUTHOR.name}</a> · Parbung, Manipur
+      </p>
+      <span class="site-footer__meta-sep" aria-hidden="true">·</span>
+      <p class="site-footer__credit">
+        Built by Donal Muolhoi
       </p>
     </div>
   </div>
@@ -121,11 +125,15 @@ const year = new Date().getFullYear();
 
   .site-footer__meta {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
+    gap: 0.35rem 0.5rem;
   }
 
-  .site-footer__legal {
+  .site-footer__legal,
+  .site-footer__credit,
+  .site-footer__meta-sep {
     color: var(--color-fg-faint);
   }
 

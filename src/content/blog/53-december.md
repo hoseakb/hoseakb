@@ -8,26 +8,28 @@ tags:
 draft: false
 ---
 
-Suddenly it's the 3rd of December again
-and where I write this
-there is nothing of the poetry
-in monsoon squash vines anymore,
-nor yet the winter of Shillong cherry blossoms,
-nor tender mustard sprouts
+Suddenly it's the 3rd of December again<br />
+and where I write this<br />
+there is nothing of the poetry<br />
+in monsoon squash vines anymore,<br />
+nor yet the winter of Shillong cherry blossoms,<br />
+nor tender mustard sprouts<br />
 for my Parbung pork winter appetite.
-For weeks now I have not been able to write
-not because I don't have anything to write.
-Perhaps, maybe I have been too happy.
+
+For weeks now I have not been able to write<br />
+not because I don't have anything to write.<br />
+Perhaps, maybe I have been too happy.<br />
 I have been settled. I have been anchored.
 
-So, I have been like this
-for three months on end now.
-So, this morning when I woke up
-suddenly when I felt you along with
+So, I have been like this<br />
+for three months on end now.<br />
+So, this morning when I woke up<br />
+suddenly when I felt you along with<br />
 all that are blessed in winter, this poem was born.
-So, Toi, tenderly and warmly this is me
-telling you that you have now become
-the morning sunbeam in my winter cold,
-the muffler to my neck,
-the only blossom in my Shillong cherry blossoms,
+
+So, Toi, tenderly and warmly this is me<br />
+telling you that you have now become<br />
+the morning sunbeam in my winter cold,<br />
+the muffler to my neck,<br />
+the only blossom in my Shillong cherry blossoms,<br />
 and the mustard tender leaves in my pork curry.

@@ -187,14 +187,20 @@ export function generateJsonLdGraph(
   } else if (
     options.pageType === "profile" ||
     options.canonicalUrl.endsWith("/about") ||
-    options.canonicalUrl.endsWith("/about/")
+    options.canonicalUrl.endsWith("/about/") ||
+    options.canonicalUrl === siteUrl ||
+    options.canonicalUrl === `${siteUrl}/` ||
+    options.pageType === "website"
   ) {
+    const isAbout =
+      options.canonicalUrl.endsWith("/about") ||
+      options.canonicalUrl.endsWith("/about/");
     graph.push({
       "@type": "ProfilePage",
-      "@id": `${options.canonicalUrl}#webpage`,
+      "@id": `${options.canonicalUrl}#profile`,
       url: options.canonicalUrl,
-      name: `About — ${SITE.title}`,
-      description: AUTHOR.bio,
+      name: isAbout ? `About — ${SITE.title}` : SITE.title,
+      description: isAbout ? AUTHOR.bio : SITE.description,
       isPartOf: {
         "@id": `${siteUrl}/#website`,
       },

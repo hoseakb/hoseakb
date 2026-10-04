@@ -24,9 +24,14 @@ export function getDeveloperSchema() {
   return {
     "@type": "Person",
     "@id": "https://thingpuisen.pages.dev/#developer",
+    identifier: [
+      "kg:/g/11yf0bzxbq",
+      "https://www.wikidata.org/wiki/Q134733823",
+    ],
     name: "Donal Muolhoi",
     alternateName: [
-      "D Muolhoi",
+      "D. Muolhoi",
+      "Pheklom",
       "Donal Hmar",
       "Donald Hmar",
       "Donald Muolhoi",
@@ -34,17 +39,28 @@ export function getDeveloperSchema() {
     ],
     url: "https://thingpuisen.pages.dev",
     mainEntityOfPage: "https://thingpuisen.pages.dev",
-    jobTitle: "Software Engineer & Web Developer",
+    jobTitle: "Cultural Activist",
     disambiguatingDescription:
-      "Software engineer and web developer, creator of thingpuisen.pages.dev",
-    sameAs: ["https://thingpuisen.pages.dev"],
+      "Cultural activist and community representative from Northeast India. Technical creator and digital archivist for indigenous literature and research archives.",
+    worksFor: {
+      "@type": "Organization",
+      "@id": "https://www.wikidata.org/wiki/Q141635438",
+      name: "Hmar Heritage Foundation",
+      url: "https://hmarheritage.pages.dev",
+    },
+    sameAs: [
+      "https://www.wikidata.org/wiki/Q134733823",
+      "https://www.google.com/search?kgmid=/g/11yf0bzxbq",
+      "https://thingpuisen.pages.dev",
+      "https://github.com/azinamotoe",
+    ],
     knowsAbout: [
-      "Web Development",
-      "Front-End Engineering",
-      "Full-Stack Web Development",
+      "Hmar Heritage & Culture",
+      "Cultural Preservation",
+      "Digital Humanities",
+      "Indigenous Literature",
+      "Web Engineering",
       "Astro Framework",
-      "Software Architecture",
-      "Content Management Systems",
       "SEO & Structured Data",
     ],
   };
@@ -126,16 +142,20 @@ export function getBlogPostingSchema(options: {
     headline: options.title,
     description: options.description,
     url: options.canonicalUrl,
-    image: options.image,
+    image: [options.image],
     datePublished: options.article.publishedTime,
     dateModified: options.article.modifiedTime ?? options.article.publishedTime,
     keywords: options.article.tags.join(", "),
     inLanguage: SITE.lang,
     author: {
-      "@id": `${options.siteUrl}/#author`,
+      "@type": "Person",
+      name: AUTHOR.name,
+      url: `${options.siteUrl}/about/`,
     },
     publisher: {
-      "@id": `${options.siteUrl}/#author`,
+      "@type": "Person",
+      name: AUTHOR.name,
+      url: `${options.siteUrl}/`,
     },
   };
 }
